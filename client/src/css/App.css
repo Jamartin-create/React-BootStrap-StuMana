@@ -1,0 +1,17 @@
+.content{
+    margin-top: 100px;
+}
+
+.title{
+    width: 300px;
+    padding: 40px;
+    height: 100px;
+}
+
+.table{
+    margin-top: 20px;
+}
+.glyphicon::before{
+    vertical-align: middle;
+    margin-right: 10px;
+}
