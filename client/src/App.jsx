@@ -1,9 +1,6 @@
-import {Routes, Route, Navigate, NavLink} from 'react-router-dom'
-import Home from './components/Home'
-import About from './components/About';
-import AddOrEdit from './components/AddOrEdit';
+import { NavLink } from 'react-router-dom'
 import './css/App.css'
-import Detail from './components/Detail';
+import RoutesConfig from './router/routes';
 
 function App() {
   return (
@@ -49,13 +46,18 @@ function App() {
         </div>
       </nav>
       <div className="container content">
-        <Routes>
+        {/* <Routes>
           <Route path='/home' element={<Home />} />
-          <Route path='/about' element={<About />} />
+          <Route path='/about' element={<About />}>
+            <Route path='tel' element={<Tel />} />
+            <Route path='email' element={<Email />} />
+            <Route path='' element={<Navigate replace to="tel" />} />
+          </Route>
           <Route path='/add' element={<AddOrEdit />} />
           <Route path='/detail/:id' element={<Detail />} />
           <Route path='/'  element={<Navigate replace to="/home" />} />
-        </Routes>
+        </Routes> */}
+        <RoutesConfig />
       </div>
     </div>
   )
