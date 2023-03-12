@@ -4,6 +4,7 @@ import Tel from "../components/Tel";
 import Email from "../components/Email";
 import AddOrEdit from "../components/AddOrEdit";
 import About from "../components/About";
+import Detail from "../components/Detail";
 
 function Routes() {
   return useRoutes([
@@ -32,6 +33,10 @@ function Routes() {
     {
       path: "/add",
       element: <AddOrEdit />,
+    },
+    {
+      path: "/detail/:id",
+      element: <Detail />
     },
     {
       path: "/",
