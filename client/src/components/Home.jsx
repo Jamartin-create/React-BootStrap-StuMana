@@ -1,16 +1,23 @@
 import React, { useState } from 'react'
 import { useEffect } from 'react';
 import { getStuList, getStudentsByName } from '../api/student';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink, useLocation } from 'react-router-dom'
 import Alert from './Alert';
+import { getStuListAsync } from '../redux/stuSlice';
 
 function Home(props) {
+    const {list} = useSelector((state) => state.stu);
+    const dispatch = useDispatch();
     const [stuList, setStuList] = useState([]);
     const [searchItem, setSearchItem] = useState([]);
-    //这里需要添加依赖性为空数组，表示只执行一次
+
     useEffect(()=>{
-        getList()
-    }, [])
+        if(list.length === 0){
+            dispatch(getStuListAsync())
+        }
+        setStuList(list);
+    }, [list, dispatch])
 
     
     const [alertInfo, setAlertInfo] = useState(null)

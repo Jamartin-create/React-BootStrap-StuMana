@@ -1,8 +1,13 @@
 import { useEffect, useState } from "react";
-import { getStuByID, saveStuList, updateStuByID } from "../api/student";
 import { useLocation, useNavigate } from 'react-router-dom'
+import { addStuAsync, updateStuAsync } from "../redux/stuSlice";
+import { useDispatch, useSelector } from "react-redux";
 
 function AddOrEdit(props) {
+
+    const dispatch = useDispatch();
+    const {list} = useSelector((state) => state.stu);
+    
     const navigate = useNavigate();
     const { state } = useLocation();
     let id = '';
@@ -20,12 +25,12 @@ function AddOrEdit(props) {
     })
 
     useEffect(()=>{
-        if(!id) return
-        setType('edit')
-        getStuByID(id).then(res=>{
-            setStu(res)
-        })
-    }, [id])
+        if(!id) return;
+        setType('edit');
+        const curStu = list.filter(it => it.id === ~~id);
+        setStu(curStu[0]);
+    }, [id, list])
+
 
     function updateUserInfo(newInfo, attr){
         if(attr === 'age' && isNaN(newInfo)) return;
@@ -43,22 +48,20 @@ function AddOrEdit(props) {
             }
         }
         if(type === 'add'){
-            saveStuList(stu).then(_=>{
-                navigate("/home", {
-                    state: {
-                        info: "用户添加成功",
-                        type: "success",
-                    }
-                });
+            dispatch(addStuAsync(stu));
+            navigate("/home", {
+                state: {
+                    info: "用户添加成功",
+                    type: "success",
+                }
             });
         }else{
-            updateStuByID(stu, id).then(_=>{
-                navigate("/home", {
-                    state: {
-                        info: '用户编辑成功',
-                        type: 'success'
-                    }
-                })
+            dispatch(updateStuAsync(stu));
+            navigate("/home", {
+                state: {
+                    info: '用户编辑成功',
+                    type: 'success'
+                }
             })
         }
     }

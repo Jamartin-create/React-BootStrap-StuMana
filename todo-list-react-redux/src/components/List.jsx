@@ -14,7 +14,8 @@ function List(props) {
     function handleChange(id){
         dispatch(change(id));
     }
-    
+
+    //在redux，通过.getState() 来获取仓库数据
     const lis = list.map((it, id)=> {
         return (
             <li key={id} className='list-group-item' style={{

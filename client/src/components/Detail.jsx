@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom'
-import { getStuByID, delStuByID } from '../api/student'
+import { useDispatch, useSelector } from 'react-redux'
+import { delStuAsync } from '../redux/stuSlice';
 
 function Detail(props) {
     const navigator = useNavigate();
+    const {list} = useSelector((state) => state.stu);
+    const dispatch = useDispatch();
     const [stu, setStu] = useState({
         name: "",
         age: "",
@@ -16,23 +19,22 @@ function Detail(props) {
     })
     const {id} = useParams();
     useEffect(()=>{
-        getStuByID(id).then(res=>{
-            setStu(res)
-        })
-    }, [id])
+        const curStu = list.filter(it => it.id === ~~id);
+        console.log(curStu);
+        setStu(curStu[0]);
+    }, [id, list])
 
     function back(){
         navigator('/home')
     }
     function del(){
         if(window.confirm('你确定要删除这个用户吗')){
-            delStuByID(id).then(_=>{
-                navigator('/home', {
-                    state: {
-                        info: '用户删除成功',
-                        type: 'success'
-                    }
-                })
+            dispatch(delStuAsync(id));
+            navigator('/home', {
+                state: {
+                    info: '用户删除成功',
+                    type: 'success'
+                }
             })
         }
     }
